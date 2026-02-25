@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="My Kitchenware Shop - Premium quality kitchen tools and cookware for every home chef.">
+    <title>{% block title %}My Kitchenware Shop{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'shop/css/style.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body data-logged-in="{{ user.is_authenticated|yesno:'true,false' }}">
+
+    <!-- ====== NAVBAR ====== -->
+    <nav class="navbar" id="navbar">
+        <a href="{% url 'shop' %}" class="logo">🍳 KitchenCraft <span>Shop</span></a>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="{% url 'shop' %}"
+                    class="{% if request.resolver_match.url_name == 'shop' %}active{% endif %}">Home</a></li>
+            <li><a href="{% url 'products' %}"
+                    class="{% if request.resolver_match.url_name == 'products' %}active{% endif %}">Products</a></li>
+            <li><a href="{% url 'about' %}"
+                    class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
+            <li><a href="{% url 'contact' %}"
+                    class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            {% if user.is_authenticated %}
+            <span style="font-size:0.85rem;color:var(--muted)">Hi, <strong style="color:var(--primary)">{{ user.first_name|default:user.username }}</strong></span>
+            <button class="btn btn-outline cart-btn" id="cartTrigger">
+                🛒 Cart
+                <span class="cart-badge">0</span>
+            </button>
+            <a href="{% url 'logout' %}" class="btn btn-outline"
+                style="border-color:var(--muted);color:var(--muted)">Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}" class="btn btn-outline">Login</a>
+            <a href="{% url 'signup' %}" class="btn btn-primary">Sign Up</a>
+            {% endif %}
+        </div>
+
+        <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- ====== PAGE CONTENT ====== -->
+    {% block content %}{% endblock %}
+
+    <!-- ====== FEATURES STRIP ====== -->
+    {% block features %}
+    <div class="features-strip">
+        <div class="features-grid">
+            <div class="feature-item fade-up">
+                <div class="feature-icon">🚚</div>
+                <div class="feature-text">
+                    <div class="title">Free Shipping</div>
+                    <div class="desc">On orders over $50</div>
+                </div>
+            </div>
+            <div class="feature-item fade-up">
+                <div class="feature-icon">🔄</div>
+                <div class="feature-text">
+                    <div class="title">Easy Returns</div>
+                    <div class="desc">30-day return policy</div>
+                </div>
+            </div>
+            <div class="feature-item fade-up">
+                <div class="feature-icon">🔒</div>
+                <div class="feature-text">
+                    <div class="title">Secure Payment</div>
+                    <div class="desc">SSL encrypted checkout</div>
+                </div>
+            </div>
+            <div class="feature-item fade-up">
+                <div class="feature-icon">🏆</div>
+                <div class="feature-text">
+                    <div class="title">Premium Quality</div>
+                    <div class="desc">Lifetime warranty</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    <!-- ====== FOOTER ====== -->
+    {% block footer %}
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo">🍳 KitchenCraft <span>Shop</span></div>
+                <p>Bringing professional-grade kitchenware to your home kitchen. Crafted for performance, designed for
+                    style.</p>
+                <div class="social-links">
+                    <div class="social-link">📘</div>
+                    <div class="social-link">📸</div>
+                    <div class="social-link">🐦</div>
+                    <div class="social-link">▶️</div>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="#">Pots & Pans</a></li>
+                    <li><a href="#">Knives</a></li>
+                    <li><a href="#">Utensils</a></li>
+                    <li><a href="#">Bowls</a></li>
+                    <li><a href="#">Appliances</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Help</h4>
+                <ul>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 KitchenCraft Shop. All rights reserved.</span>
+            <span>Made with ❤️ for home chefs</span>
+        </div>
+    </footer>
+    {% endblock %}
+
+    <!-- ====== CART DRAWER ====== -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>🛒 Your Cart</h3>
+            <button class="cart-close" id="cartClose">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty" id="cartEmpty">
+                <div class="empty-icon">🛒</div>
+                <p>Your cart is empty</p>
+                <a href="#products" style="color:var(--primary);font-size:0.9rem;margin-top:8px;display:block;">Browse
+                    products →</a>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cartTotal">KES 0.00</span>
+            </div>
+            <a href="{% url 'payment' %}" class="btn btn-primary btn-full" id="checkoutBtn"
+                style="text-decoration:none;text-align:center;">Proceed to Checkout →</a>
+        </div>
+    </div>
+
+    <!-- ====== TOAST CONTAINER ====== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ====== PRODUCT MODAL ====== -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal">
+            <img class="modal-img" src="" alt="">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal()">✕</button>
+                <div class="modal-cat"></div>
+                <div class="modal-name"></div>
+                <div class="modal-desc"></div>
+                <div class="modal-price"></div>
+                <div class="modal-count-wrap">
+                    <label>Quantity:</label>
+                    <div class="modal-qty">
+                        <button class="qty-btn" id="modalQtyMinus">-</button>
+                        <input type="number" id="modalQty" value="1" min="1"
+                            style="width:50px;text-align:center;background:var(--dark3);border:1px solid rgba(255,255,255,0.1);color:var(--text);padding:4px;border-radius:6px;">
+                        <button class="qty-btn" id="modalQtyPlus">+</button>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-full" id="modalAddToCart">Add to Cart 🛒</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'shop/js/main.js' %}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+
+</html>

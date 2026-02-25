@@ -1,0 +1,330 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Checkout – KitchenCraft Shop{% endblock %}
+
+{% block content %}
+<section style="padding:120px 5% 80px;min-height:100vh;background:var(--dark);">
+    <div class="section-header fade-up" style="margin-bottom:2.5rem;">
+        <span class="section-label">Secure Checkout</span>
+        <h1 class="section-title">Complete Your Order</h1>
+    </div>
+
+    <div
+        style="display:grid;grid-template-columns:1.5fr 1fr;gap:3rem;max-width:1100px;margin:0 auto;align-items:start;">
+
+        <!-- Left Column: Payment Details -->
+        <div class="fade-up"
+            style="background:var(--dark2);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);padding:2.5rem;">
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:#fff;margin-bottom:1.5rem;">Payment
+                Method</h3>
+
+            <!-- Payment Options Toggles -->
+            <div style="display:flex;gap:1rem;margin-bottom:2rem;">
+                <label class="payment-method-toggle active" id="btn-mpesa" onclick="selectPaymentMethod('mpesa')">
+                    <input type="radio" name="payment_method" value="mpesa" checked style="display:none;">
+                    <div style="font-size:1.5rem;margin-bottom:0.5rem;color:#25d366;">📱</div>
+                    <div style="font-weight:600;">M-Pesa</div>
+                </label>
+                <label class="payment-method-toggle" id="btn-card" onclick="selectPaymentMethod('card')">
+                    <input type="radio" name="payment_method" value="card" style="display:none;">
+                    <div style="font-size:1.5rem;margin-bottom:0.5rem;color:var(--primary);">💳</div>
+                    <div style="font-weight:600;">Visa / Mastercard</div>
+                </label>
+            </div>
+
+            <form id="checkoutForm">
+                {% csrf_token %}
+
+                <!-- M-PESA Form -->
+                <div id="mpesa-form" style="display:block;">
+                    <div
+                        style="background:rgba(37,211,102,0.05);border:1px dashed rgba(37,211,102,0.3);padding:1rem;border-radius:var(--radius-sm);margin-bottom:1.5rem;">
+                        <p style="font-size:0.85rem;color:var(--muted);margin:0;line-height:1.5;">
+                            Enter your Safaricom M-Pesa phone number below. After clicking <strong>Pay via
+                                M-Pesa</strong>, you will receive an STK prompt on your phone to enter your PIN and
+                            confirm the transaction.
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label>M-Pesa Phone Number</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">📞</span>
+                            <input type="tel" id="mpesaPhone" placeholder="e.g. 0712345678" pattern="^07\d{8}|01\d{8}$"
+                                required>
+                        </div>
+                        <div style="font-size:0.75rem;color:var(--muted);margin-top:0.3rem;">Must start with 07 or 01
+                            and be 10 digits.</div>
+                    </div>
+                </div>
+
+                <!-- CARD Form -->
+                <div id="card-form" style="display:none;">
+                    <div class="form-group">
+                        <label>Cardholder Name</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">👤</span>
+                            <input type="text" id="cardName" placeholder="John Doe">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Card Number</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">💳</span>
+                            <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19">
+                        </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                        <div class="form-group">
+                            <label>Expiry Date</label>
+                            <div class="input-wrap">
+                                <span class="input-icon">📅</span>
+                                <input type="text" id="cardExp" placeholder="MM/YY" maxlength="5">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <div class="input-wrap">
+                                <span class="input-icon">🔒</span>
+                                <input type="password" id="cardCvv" placeholder="123" maxlength="3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full btn-lg" id="submitBtn" style="margin-top:1rem;">
+                    Pay KES <span id="payBtnAmount">0</span> via M-Pesa
+                </button>
+            </form>
+        </div>
+
+        <!-- Right Column: Order Summary -->
+        <div class="fade-up"
+            style="background:var(--dark2);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);padding:2.5rem;position:sticky;top:100px;">
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:#fff;margin-bottom:1.5rem;">Order
+                Summary</h3>
+
+            <div id="checkoutItems" style="max-height:300px;overflow-y:auto;padding-right:0.5rem;margin-bottom:1.5rem;">
+                <!-- Filled by JS -->
+            </div>
+
+            <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:1.5rem;">
+                <div
+                    style="display:flex;justify-content:space-between;margin-bottom:1rem;color:var(--muted);font-size:0.9rem;">
+                    <span>Subtotal</span>
+                    <span id="checkoutSubtotal">KES 0</span>
+                </div>
+                <div
+                    style="display:flex;justify-content:space-between;margin-bottom:1rem;color:var(--muted);font-size:0.9rem;">
+                    <span>Shipping</span>
+                    <span>Free</span>
+                </div>
+                <div
+                    style="display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.08);padding-top:1rem;font-weight:600;font-size:1.2rem;color:#fff;">
+                    <span>Total</span>
+                    <span id="checkoutTotal">KES 0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Processing Overlay -->
+<div id="processingOverlay"
+    style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,10,10,0.9);z-index:9999;align-items:center;justify-content:center;flex-direction:column;text-align:center;">
+    <div class="spinner"
+        style="width:50px;height:50px;border:4px solid rgba(232,160,69,0.2);border-top-color:var(--primary);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1.5rem;">
+    </div>
+    <h2 style="color:#fff;font-family:'Playfair Display',serif;margin-bottom:0.5rem;" id="processingTitle">Initiating
+        Payment...</h2>
+    <p style="color:var(--muted);font-size:0.95rem;max-width:400px;line-height:1.5;" id="processingDesc">Please check
+        your phone for the M-Pesa prompt.</p>
+</div>
+
+<style>
+    .payment-method-toggle {
+        flex: 1;
+        background: var(--dark3);
+        border: 1.5px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-sm);
+        padding: 1.5rem 1rem;
+        text-align: center;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .payment-method-toggle:hover {
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .payment-method-toggle.active {
+        border-color: var(--primary);
+        background: rgba(232, 160, 69, 0.05);
+    }
+
+    @keyframes spin {
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Scrollbar for checkout items */
+    #checkoutItems::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    #checkoutItems::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    let method = 'mpesa';
+    let totalNum = 0;
+
+    // Render Cart Items
+    function renderCheckoutCart() {
+        const items = JSON.parse(localStorage.getItem('kwCart')) || [];
+        const container = document.getElementById('checkoutItems');
+        if (items.length === 0) {
+            container.innerHTML = '<div style="color:var(--muted);text-align:center;padding:2rem 0;">Your cart is empty. <br><a href="{% url "products" %}" style="color:var(--primary);text-decoration:none;margin-top:0.5rem;display:inline-block;">Go shop</a></div>';
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').style.opacity = '0.5';
+            return;
+        }
+
+        let html = '';
+        totalNum = 0;
+
+        items.forEach(item => {
+            totalNum += item.price * item.qty;
+            html += `
+        <div style="display:flex;gap:1rem;margin-bottom:1rem;align-items:center;">
+          <div style="width:60px;height:60px;background:var(--dark3);border-radius:var(--radius-sm);padding:0.3rem;">
+            <img src="${item.img}" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:lighten;">
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:0.9rem;font-weight:600;color:#fff;">${item.name}</div>
+            <div style="font-size:0.8rem;color:var(--muted);">Qty: ${item.qty} × KES ${item.price.toLocaleString()}</div>
+          </div>
+          <div style="font-weight:600;color:var(--primary);font-size:0.9rem;">
+            KES ${(item.price * item.qty).toLocaleString()}
+          </div>
+        </div>
+      `;
+        });
+
+        container.innerHTML = html;
+        document.getElementById('checkoutSubtotal').textContent = `KES ${totalNum.toLocaleString()}`;
+        document.getElementById('checkoutTotal').textContent = `KES ${totalNum.toLocaleString()}`;
+        document.getElementById('payBtnAmount').textContent = totalNum.toLocaleString();
+    }
+
+    // Switch Payment Method
+    window.selectPaymentMethod = function (m) {
+        method = m;
+
+        // UI toggles
+        document.querySelectorAll('.payment-method-toggle').forEach(el => el.classList.remove('active'));
+        document.getElementById('btn-' + m).classList.add('active');
+
+        // Form toggles
+        if (m === 'mpesa') {
+            document.getElementById('mpesa-form').style.display = 'block';
+            document.getElementById('card-form').style.display = 'none';
+            document.getElementById('mpesaPhone').required = true;
+            document.getElementById('cardName').required = false;
+            document.getElementById('cardNumber').required = false;
+            document.getElementById('cardExp').required = false;
+            document.getElementById('cardCvv').required = false;
+            document.getElementById('submitBtn').innerHTML = `Pay KES <span id="payBtnAmount">${totalNum.toLocaleString()}</span> via M-Pesa`;
+        } else {
+            document.getElementById('mpesa-form').style.display = 'none';
+            document.getElementById('card-form').style.display = 'block';
+            document.getElementById('mpesaPhone').required = false;
+            document.getElementById('cardName').required = true;
+            document.getElementById('cardNumber').required = true;
+            document.getElementById('cardExp').required = true;
+            document.getElementById('cardCvv').required = true;
+            document.getElementById('submitBtn').innerHTML = `Pay KES <span id="payBtnAmount">${totalNum.toLocaleString()}</span> via Card`;
+        }
+    };
+
+    // Form Submission Simulator
+    document.getElementById('checkoutForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const items = JSON.parse(localStorage.getItem('kwCart')) || [];
+        if (items.length === 0) return;
+
+        // Show overlay
+        const overlay = document.getElementById('processingOverlay');
+        const title = document.getElementById('processingTitle');
+        const desc = document.getElementById('processingDesc');
+
+        overlay.style.display = 'flex';
+
+        if (method === 'mpesa') {
+            title.textContent = 'Awaiting M-Pesa PIN...';
+            desc.textContent = 'We have sent an STK push to your Safaricom line. Please enter your PIN on your phone to complete the payment of KES ' + totalNum.toLocaleString() + '.';
+
+            // Simulate waiting for user to type PIN on phone
+            setTimeout(() => {
+                title.textContent = 'Confirming Payment...';
+                desc.textContent = 'Verifying transaction with Safaricom M-Pesa...';
+
+                setTimeout(() => {
+                    paymentSuccess();
+                }, 2000);
+            }, 5000); // 5 sec to "enter pin"
+
+        } else {
+            title.textContent = 'Processing Card...';
+            desc.textContent = 'Contacting your bank securely...';
+
+            // Simulate card process
+            setTimeout(() => {
+                paymentSuccess();
+            }, 3000);
+        }
+    });
+
+    function paymentSuccess() {
+        const title = document.getElementById('processingTitle');
+        const desc = document.getElementById('processingDesc');
+        const spinner = document.querySelector('.spinner');
+
+        spinner.style.display = 'none';
+        title.textContent = 'Payment Successful! 🎉';
+        title.style.color = '#25d366';
+        desc.textContent = 'Thank you for your order. We are preparing it for dispatch. Redirecting you home...';
+
+        // Clear cart
+        localStorage.removeItem('kwCart');
+        if (window.updateCartUI) window.updateCartUI();
+
+        // Redirect
+        setTimeout(() => {
+            window.location.href = '{% url "shop" %}';
+        }, 3000);
+    }
+
+    // Formatting Card inputs (simple UX enhancement)
+    document.getElementById('cardNumber').addEventListener('input', function (e) {
+        let t = this.value.replace(/\D/g, '');
+        t = t.replace(/(.{4})/g, '$1 ').trim();
+        this.value = t;
+    });
+    document.getElementById('cardExp').addEventListener('input', function (e) {
+        let t = this.value.replace(/\D/g, '');
+        if (t.length > 2) t = t.substring(0, 2) + '/' + t.substring(2);
+        this.value = t;
+    });
+
+    // Init
+    renderCheckoutCart();
+
+</script>
+{% endblock %}

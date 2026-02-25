@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Contact Us – My Kitchenware Shop{% endblock %}
+
+{% block content %}
+<section style="min-height:100vh;padding:120px 5% 90px;">
+    <div class="section-header fade-up">
+        <span class="section-label">Get in Touch</span>
+        <h1 class="section-title">We'd Love to Hear From You</h1>
+        <p class="section-sub">Questions, feedback, or just want to chat about cooking? We're here for you.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:4rem;max-width:1100px;margin:4rem auto 0;">
+
+        <!-- Info -->
+        <div class="fade-up">
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:#fff;margin-bottom:2rem;">Contact
+                Info</h3>
+            <div style="display:flex;flex-direction:column;gap:1.5rem;">
+
+                <!-- Email -->
+                <a href="mailto:nehemiahkipagat@gmail.com"
+                    style="display:flex;align-items:center;gap:1rem;text-decoration:none;">
+                    <div
+                        style="width:52px;height:52px;background:rgba(232,160,69,0.1);border:1px solid rgba(232,160,69,0.2);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">
+                        📧</div>
+                    <div>
+                        <div
+                            style="color:var(--muted);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">
+                            Email</div>
+                        <div style="color:#fff;font-weight:600;">nehemiahkipagat@gmail.com</div>
+                        <div style="color:var(--primary);font-size:0.78rem;margin-top:2px;">Click to send email →</div>
+                    </div>
+                </a>
+
+                <!-- Phone / WhatsApp -->
+                <a href="https://wa.me/254748711776" target="_blank" rel="noopener"
+                    style="display:flex;align-items:center;gap:1rem;text-decoration:none;">
+                    <div
+                        style="width:52px;height:52px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">
+                        💬</div>
+                    <div>
+                        <div
+                            style="color:var(--muted);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">
+                            Phone / WhatsApp</div>
+                        <div style="color:#fff;font-weight:600;">0748 711 776</div>
+                        <div style="color:#25d366;font-size:0.78rem;margin-top:2px;">Click to chat on WhatsApp →</div>
+                    </div>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://instagram.com/nenasjoh5" target="_blank" rel="noopener"
+                    style="display:flex;align-items:center;gap:1rem;text-decoration:none;">
+                    <div
+                        style="width:52px;height:52px;background:rgba(228,64,95,0.1);border:1px solid rgba(228,64,95,0.25);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">
+                        📸</div>
+                    <div>
+                        <div
+                            style="color:var(--muted);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">
+                            Instagram</div>
+                        <div style="color:#fff;font-weight:600;">@nenasjoh5</div>
+                        <div style="color:#e4405f;font-size:0.78rem;margin-top:2px;">Follow us on Instagram →</div>
+                    </div>
+                </a>
+
+                <!-- Response time -->
+                <div style="display:flex;align-items:center;gap:1rem;">
+                    <div
+                        style="width:52px;height:52px;background:rgba(232,160,69,0.1);border:1px solid rgba(232,160,69,0.2);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">
+                        ⚡</div>
+                    <div>
+                        <div
+                            style="color:var(--muted);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">
+                            Response Time</div>
+                        <div style="color:#fff;font-weight:600;">Usually within a few hours</div>
+                        <div style="color:var(--muted);font-size:0.78rem;margin-top:2px;">We're always happy to help!
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Form -->
+        <div class="fade-up"
+            style="background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:var(--radius);padding:2.5rem;">
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:#fff;margin-bottom:2rem;">Send a
+                Message</h3>
+            <form id="contactForm">
+                {% csrf_token %}
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">👤</span>
+                            <input type="text" placeholder="John" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">👤</span>
+                            <input type="text" placeholder="Doe">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-wrap">
+                        <span class="input-icon">✉️</span>
+                        <input type="email" placeholder="you@example.com" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <div class="input-wrap">
+                        <span class="input-icon">📝</span>
+                        <input type="text" placeholder="How can we help?">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea rows="5" placeholder="Write your message…" required
+                        style="width:100%;background:var(--dark3);border:1.5px solid rgba(255,255,255,0.08);border-radius:var(--radius-sm);padding:0.8rem 1rem;color:var(--text);font-family:Inter,sans-serif;font-size:0.9rem;outline:none;resize:vertical;transition:border-color 0.3s;"
+                        onfocus="this.style.borderColor='var(--primary)'"
+                        onblur="this.style.borderColor='rgba(255,255,255,0.08)'"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full btn-lg">Send Message 🚀</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.getElementById('contactForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const toast = (msg, t) => {
+            let c = document.getElementById('toastContainer');
+            if (!c) { c = document.createElement('div'); c.id = 'toastContainer'; c.className = 'toast-container'; document.body.appendChild(c); }
+            const el = document.createElement('div'); el.className = `toast ${t}`; el.innerHTML = `<span>${msg}</span>`; c.appendChild(el);
+            setTimeout(() => { el.style.animation = 'toastOut 0.4s ease forwards'; setTimeout(() => el.remove(), 400); }, 3500);
+        };
+        toast('Your message has been sent! We\'ll get back to you soon. 📬', 'success');
+        this.reset();
+    });
+</script>
+{% endblock %}

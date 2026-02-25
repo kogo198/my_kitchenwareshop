@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home – KitchenCraft Shop{% endblock %}
+
+{% block content %}
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+        <div class="hero-text">
+            <div class="hero-badge">✨ Premium Kitchenware</div>
+            <h1>Cook Like a <span class="highlight">Professional</span> Chef</h1>
+            <p>Discover our curated collection of restaurant-grade kitchenware. From precision knives to non-stick pans
+                – everything you need to elevate your cooking.</p>
+            <div class="hero-actions">
+                <a href="{% url 'products' %}" class="btn btn-primary btn-lg">Shop Now →</a>
+                <a href="{% url 'about' %}" class="btn btn-outline btn-lg">Our Story</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Products</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">12k+</span>
+                    <span class="stat-label">Happy Customers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">4.9★</span>
+                    <span class="stat-label">Rating</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="{% static 'shop/images/hero.png' %}" alt="Premium Kitchenware Collection">
+            <div class="floating-card float-1">
+                <div class="float-icon">🏆</div>
+                <div class="float-text">
+                    <div class="title">Bestseller</div>
+                    <div class="value">Chef's Knife Set</div>
+                </div>
+            </div>
+            <div class="floating-card float-2">
+                <div class="float-icon">⭐</div>
+                <div class="float-text">
+                    <div class="title">Top Rated</div>
+                    <div class="value">4.9 / 5.0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FEATURED CATEGORIES ====== -->
+<section class="categories">
+    <div class="section-header fade-up">
+        <span class="section-label">Browse by Category</span>
+        <h2 class="section-title">What Are You Looking For?</h2>
+    </div>
+    <div class="categories-grid">
+        <a href="{% url 'products' %}?cat=all" class="cat-card fade-up" style="text-decoration:none;">
+            <div class="cat-icon">🍳</div>
+            <div class="cat-name">All Items</div>
+            <div class="cat-count">30+ products</div>
+        </a>
+        <a href="{% url 'products' %}?cat=pots" class="cat-card fade-up" style="text-decoration:none;">
+            <div class="cat-icon">🥘</div>
+            <div class="cat-name">Pots & Pans</div>
+            <div class="cat-count">8 products</div>
+        </a>
+        <a href="{% url 'products' %}?cat=knives" class="cat-card fade-up" style="text-decoration:none;">
+            <div class="cat-icon">🔪</div>
+            <div class="cat-name">Knives</div>
+            <div class="cat-count">6 products</div>
+        </a>
+        <a href="{% url 'products' %}?cat=utensils" class="cat-card fade-up" style="text-decoration:none;">
+            <div class="cat-icon">🥄</div>
+            <div class="cat-name">Utensils</div>
+            <div class="cat-count">10 products</div>
+        </a>
+        <a href="{% url 'products' %}?cat=bowls" class="cat-card fade-up" style="text-decoration:none;">
+            <div class="cat-icon">🥣</div>
+            <div class="cat-name">Bowls</div>
+            <div class="cat-count">5 products</div>
+        </a>
+        <a href="{% url 'products' %}?cat=appliances" class="cat-card fade-up" style="text-decoration:none;">
+            <div class="cat-icon">⚡</div>
+            <div class="cat-name">Appliances</div>
+            <div class="cat-count">6 products</div>
+        </a>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem;">
+        <a href="{% url 'products' %}" class="btn btn-outline btn-lg fade-up">Browse All Products →</a>
+    </div>
+</section>
+
+<!-- ====== FEATURED PRODUCTS PREVIEW (3 cards) ====== -->
+<section class="products" id="featured">
+    <div class="products-header">
+        <div>
+            <span class="section-label">Handpicked For You</span>
+            <h2 class="section-title" style="text-align:left;margin-bottom:0;">Featured Products</h2>
+        </div>
+        <a href="{% url 'products' %}" class="btn btn-outline">View All →</a>
+    </div>
+
+    <div class="products-grid">
+
+        <!-- Product 1 -->
+        <div class="product-card fade-up" data-cat="pots">
+            <div class="product-img-wrap">
+                <img src="{% static 'shop/images/pots.png' %}" alt="Stainless Steel Cookware Set"
+                    onclick="openModal('Stainless Steel Cookware Set', 129.99, '{% static 'shop/images/pots.png' %}', '7-piece premium stainless steel cookware set with tri-ply construction for even heat distribution. Dishwasher safe and oven-proof up to 500°F.', 'Pots & Pans')">
+                <span class="product-badge sale">Sale</span>
+                <button class="product-wishlist"
+                    onclick="toggleWishlist(this,'Stainless Steel Cookware Set')">♡</button>
+                <div class="product-overlay">
+                    <button class="btn btn-primary"
+                        onclick="openModal('Stainless Steel Cookware Set', 129.99, '{% static 'shop/images/pots.png' %}', '7-piece premium stainless steel cookware set.', 'Pots & Pans')">Quick
+                        View</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <div class="product-cat">Pots & Pans</div>
+                <div class="product-name">Stainless Steel Cookware Set</div>
+                <div class="product-desc">7-piece tri-ply construction, oven-safe up to 500°F.</div>
+                <div class="product-footer">
+                    <div class="product-price">
+                        <span class="price-current">$129.99</span>
+                        <span class="price-old">$179.99</span>
+                    </div>
+                    <button class="add-to-cart"
+                        onclick="addToCart('Stainless Steel Cookware Set', 129.99, '{% static 'shop/images/pots.png' %}')">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card fade-up" data-cat="knives">
+            <div class="product-img-wrap">
+                <img src="{% static 'shop/images/knives.png' %}" alt="Professional Chef Knife Set"
+                    onclick="openModal('Professional Chef Knife Set', 89.99, '{% static 'shop/images/knives.png' %}', 'High-carbon stainless steel blades with ergonomic handles. Includes chef knife, bread knife, paring knife, and honing steel in a wooden block.', 'Knives')">
+                <span class="product-badge new">New</span>
+                <button class="product-wishlist" onclick="toggleWishlist(this,'Professional Chef Knife Set')">♡</button>
+                <div class="product-overlay">
+                    <button class="btn btn-primary"
+                        onclick="openModal('Professional Chef Knife Set', 89.99, '{% static 'shop/images/knives.png' %}', 'High-carbon stainless steel blades.', 'Knives')">Quick
+                        View</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <div class="product-cat">Knives</div>
+                <div class="product-name">Professional Chef Knife Set</div>
+                <div class="product-desc">High-carbon stainless steel, 6-piece set with block.</div>
+                <div class="product-footer">
+                    <div class="product-price">
+                        <span class="price-current">$89.99</span>
+                    </div>
+                    <button class="add-to-cart"
+                        onclick="addToCart('Professional Chef Knife Set', 89.99, '{% static 'shop/images/knives.png' %}')">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card fade-up" data-cat="appliances">
+            <div class="product-img-wrap">
+                <img src="{% static 'shop/images/blender.png' %}" alt="High-Power Smart Blender"
+                    onclick="openModal('High-Power Smart Blender', 149.99, '{% static 'shop/images/blender.png' %}', '1500-watt professional blender with 6 pre-programmed settings, self-cleaning mode, and 64oz BPA-free pitcher. Crushes ice in seconds.', 'Appliances')">
+                <span class="product-badge sale">Sale</span>
+                <button class="product-wishlist" onclick="toggleWishlist(this,'High-Power Smart Blender')">♡</button>
+                <div class="product-overlay">
+                    <button class="btn btn-primary"
+                        onclick="openModal('High-Power Smart Blender', 149.99, '{% static 'shop/images/blender.png' %}', '1500-watt professional blender.', 'Appliances')">Quick
+                        View</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <div class="product-cat">Appliances</div>
+                <div class="product-name">High-Power Smart Blender</div>
+                <div class="product-desc">1500W, 6 smart programs, 64oz BPA-free pitcher.</div>
+                <div class="product-footer">
+                    <div class="product-price">
+                        <span class="price-current">$149.99</span>
+                        <span class="price-old">$199.99</span>
+                    </div>
+                    <button class="add-to-cart"
+                        onclick="addToCart('High-Power Smart Blender', 149.99, '{% static 'shop/images/blender.png' %}')">+</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="text-align:center;margin-top:3rem;">
+        <a href="{% url 'products' %}" class="btn btn-primary btn-lg fade-up">View All Products →</a>
+    </div>
+</section>
+
+<!-- ====== TESTIMONIALS ====== -->
+<section class="testimonials">
+    <div class="section-header fade-up">
+        <span class="section-label">Reviews</span>
+        <h2 class="section-title">What Our Customers Say</h2>
+        <p class="section-sub">Thousands of happy home chefs trust KitchenCraft Shop.</p>
+    </div>
+    <div class="testimonials-grid">
+        <div class="testimonial-card fade-up">
+            <div class="testimonial-stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span
+                    class="star">★</span><span class="star">★</span>
+            </div>
+            <p class="testimonial-text">"The cookware set is absolutely phenomenal! Even heat distribution and
+                incredibly easy to clean. Best kitchen investment I've ever made."</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">SR</div>
+                <div>
+                    <div class="author-name">Sarah R.</div>
+                    <div class="author-loc">📍 New York, USA</div>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card fade-up">
+            <div class="testimonial-stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span
+                    class="star">★</span><span class="star">★</span>
+            </div>
+            <p class="testimonial-text">"My chef knife set arrived beautifully packaged. The blades are razor-sharp and
+                the ergonomic handles make long cooking sessions effortless."</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">MJ</div>
+                <div>
+                    <div class="author-name">Marcus J.</div>
+                    <div class="author-loc">📍 London, UK</div>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card fade-up">
+            <div class="testimonial-stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span
+                    class="star">★</span><span class="star">★</span>
+            </div>
+            <p class="testimonial-text">"Fast shipping, amazing quality. The silicone utensil set is my daily go-to.
+                Love that it's non-stick safe and dishwasher-proof!"</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">AL</div>
+                <div>
+                    <div class="author-name">Aisha L.</div>
+                    <div class="author-loc">📍 Nairobi, Kenya</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== NEWSLETTER ====== -->
+<section class="newsletter">
+    <div class="newsletter-inner fade-up">
+        <h2>Stay in the Kitchen Loop</h2>
+        <p>Subscribe for exclusive deals, new arrivals, and expert cooking tips delivered to your inbox.</p>
+        <form class="newsletter-form" id="newsletterForm">
+            {% csrf_token %}
+            <input type="email" placeholder="Your email address…" required>
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

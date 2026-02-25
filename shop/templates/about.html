@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}About Us – My Kitchenware Shop{% endblock %}
+
+{% block content %}
+<section style="min-height:100vh;padding:120px 5% 90px;max-width:1200px;margin:0 auto;">
+    <div class="section-header fade-up">
+        <span class="section-label">Our Story</span>
+        <h1 class="section-title">Crafting Better Kitchens Since 2015</h1>
+        <p class="section-sub">We believe great cooking starts with great tools. KitchenCraft was founded by passionate
+            home chefs tired of mediocre cookware.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin:4rem 0;" class="fade-up">
+        <div>
+            <img src="{% static 'shop/images/hero.png' %}" alt="Our Kitchen"
+                style="border-radius:20px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,0.5);">
+        </div>
+        <div>
+            <h2 style="font-family:'Playfair Display',serif;font-size:2rem;color:#fff;margin-bottom:1.5rem;">We're on a
+                Mission to Elevate Every Kitchen</h2>
+            <p style="color:var(--muted);line-height:1.8;margin-bottom:1.5rem;">From humble beginnings at a local
+                farmers market, KitchenCraft has grown into a trusted destination for thousands of home cooks and
+                professional chefs worldwide.</p>
+            <p style="color:var(--muted);line-height:1.8;margin-bottom:2rem;">Every product we carry is rigorously
+                tested in real kitchens. If it doesn't meet our standards for durability, performance, and value — it
+                doesn't make our shelves.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+                <div
+                    style="background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:var(--radius);padding:1.5rem;text-align:center;">
+                    <div style="font-size:2rem;font-weight:800;color:var(--primary);">12k+</div>
+                    <div style="color:var(--muted);font-size:0.85rem;">Happy Customers</div>
+                </div>
+                <div
+                    style="background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:var(--radius);padding:1.5rem;text-align:center;">
+                    <div style="font-size:2rem;font-weight:800;color:var(--primary);">500+</div>
+                    <div style="color:var(--muted);font-size:0.85rem;">Products Sold</div>
+                </div>
+                <div
+                    style="background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:var(--radius);padding:1.5rem;text-align:center;">
+                    <div style="font-size:2rem;font-weight:800;color:var(--primary);">4.9★</div>
+                    <div style="color:var(--muted);font-size:0.85rem;">Avg. Rating</div>
+                </div>
+                <div
+                    style="background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:var(--radius);padding:1.5rem;text-align:center;">
+                    <div style="font-size:2rem;font-weight:800;color:var(--primary);">10yr</div>
+                    <div style="color:var(--muted);font-size:0.85rem;">Warranty</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top:5rem;">
+        <h2 class="section-title fade-up" style="text-align:center;margin-bottom:3rem;">Our Values</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;">
+            <div class="fade-up"
+                style="background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:var(--radius);padding:2rem;text-align:center;">
+                <div style="font-size:2.5rem;margin-bottom:1rem;">🌱</div>
+                <h3 style="color:#fff;margin-bottom:0.75rem;">Sustainability</h3>
+                <p style="color:var(--muted);font-size:0.9rem;line-height:1.6;">Eco-friendly packaging and ethically
+                    sourced materials in every product.</p>
+            </div>
+            <div class="fade-up"
+                style="background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:var(--radius);padding:2rem;text-align:center;">
+                <div style="font-size:2.5rem;margin-bottom:1rem;">🔬</div>
+                <h3 style="color:#fff;margin-bottom:0.75rem;">Tested Quality</h3>
+                <p style="color:var(--muted);font-size:0.9rem;line-height:1.6;">Every product is lab-tested and
+                    kitchen-approved before it reaches you.</p>
+            </div>
+            <div class="fade-up"
+                style="background:var(--dark2);border:1px solid rgba(255,255,255,0.07);border-radius:var(--radius);padding:2rem;text-align:center;">
+                <div style="font-size:2.5rem;margin-bottom:1rem;">💬</div>
+                <h3 style="color:#fff;margin-bottom:0.75rem;">Customer First</h3>
+                <p style="color:var(--muted);font-size:0.9rem;line-height:1.6;">24/7 support and a hassle-free 30-day
+                    return policy on all items.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

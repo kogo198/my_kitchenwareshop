@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login – My Kitchenware Shop{% endblock %}
+
+{% block features %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+
+    <!-- Left panel -->
+    <div class="auth-left">
+        <div class="auth-left-inner">
+            <img src="{% static 'shop/images/hero.png' %}" alt="Kitchenware">
+            <h2>Welcome Back, Chef! 👨‍🍳</h2>
+            <p>Log in to access your cart, track your orders, and enjoy exclusive member deals.</p>
+        </div>
+    </div>
+
+    <!-- Right panel -->
+    <div class="auth-right">
+        <div class="auth-card">
+            <a href="{% url 'shop' %}" class="logo">🍳 KitchenCraft <span>Shop</span></a>
+            <h1>Sign In</h1>
+            <p class="subtitle">Don't have an account? <a href="{% url 'signup' %}">Create one free →</a></p>
+
+            {% if form.errors %}
+            <div class="alert alert-error" id="loginError">
+                ⚠️ Invalid username or password. Please try again.
+            </div>
+            {% endif %}
+
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <div class="form-group">
+                    <label for="id_username">Username</label>
+                    <div class="input-wrap">
+                        <span class="input-icon">👤</span>
+                        <input type="text" name="username" id="id_username" placeholder="Enter your username" required
+                            autofocus>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password">Password</label>
+                    <div class="input-wrap">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" name="password" id="id_password" placeholder="Enter your password"
+                            required>
+                        <button type="button" class="input-toggle" title="Show/Hide">👁</button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="remember"> Remember me
+                    </label>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full btn-lg">Sign In →</button>
+            </form>
+
+            <div class="divider">or continue with</div>
+
+            <div style="display:flex;gap:0.75rem;">
+                <button class="btn btn-outline" style="flex:1;justify-content:center;"
+                    onclick="showToast('Social login coming soon!','info')">📘 Facebook</button>
+                <button class="btn btn-outline" style="flex:1;justify-content:center;"
+                    onclick="showToast('Social login coming soon!','info')">🔴 Google</button>
+            </div>
+
+            <div class="auth-footer">
+                New to KitchenCraft? <a href="{% url 'signup' %}">Create an account</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'shop/js/auth.js' %}"></script>
+<script>
+    // simple toast shim for this page (main.js not loaded on auth)
+    function showToast(msg, type) {
+        let c = document.getElementById('toastContainer');
+        if (!c) { c = document.createElement('div'); c.id = 'toastContainer'; c.className = 'toast-container'; document.body.appendChild(c); }
+        const t = document.createElement('div'); t.className = `toast ${type}`; t.innerHTML = `<span>${msg}</span>`; c.appendChild(t);
+        setTimeout(() => { t.style.animation = 'toastOut 0.4s ease forwards'; setTimeout(() => t.remove(), 400); }, 3000);
+    }
+</script>
+{% endblock %}
